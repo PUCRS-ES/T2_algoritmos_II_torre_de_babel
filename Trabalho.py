@@ -1,4 +1,5 @@
 import json
+import sys
 
 
 class Elevador:
@@ -18,8 +19,17 @@ class Elevador:
         temp = temp / self.passo
         self.andar_maximo = temp * self.passo + self.andar_inicial
 
+
+def adiciona_ligacao(andar1, andar2):
+    if andar1 not in grafo:
+        grafo[andar1] = [andar2]
+    else:
+        grafo[andar1].append(andar2)
+
 grafo = {}
 
+
+# Le dados iniciais
 linhas_do_arquivo = []
 with open('Teste.txt', 'r') as file:
     linhas_do_arquivo = file.read()
@@ -33,6 +43,8 @@ segunda_linha = linhas_do_arquivo.pop(0).split(' ')
 inicio = int(segunda_linha[0])
 fim = int(segunda_linha[1])
 
+
+# Cria os elevadores para posteriormente criar o grafo
 elevadores = [None] * quantidade_elevadores
 for i in range(0, quantidade_elevadores):
     linha_atual = linhas_do_arquivo[i].split(' ')
@@ -40,12 +52,7 @@ for i in range(0, quantidade_elevadores):
     elevadores[i].calcula_andar_maximo()
 
 
-def adiciona_ligacao(andar1, andar2):
-    if andar1 not in grafo:
-        grafo[andar1] = [andar2]
-    else:
-        grafo[andar1].append(andar2)
-
+# Gera o grafo em memoria
 for elevador_atual in elevadores:
     andar_atual = elevador_atual.andar_inicial
     passo_atual = elevador_atual.passo
@@ -55,5 +62,12 @@ for elevador_atual in elevadores:
         adiciona_ligacao(proximo_andar, andar_atual)
         andar_atual = proximo_andar
         proximo_andar = proximo_andar + passo_atual
+
+if inicio not in grafo:
+    print "Erro: nao existe o andar inicial %d" % (inicio)
+    sys.exit(0)
+if fim not in grafo:
+    print "Erro: nao existe o andar final %d" % (fim)
+    sys.exit(0)
 
 print json.dumps(grafo, indent=4)
