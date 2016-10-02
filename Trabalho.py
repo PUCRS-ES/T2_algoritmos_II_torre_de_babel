@@ -70,4 +70,24 @@ if fim not in grafo:
     print "Erro: nao existe o andar final %d" % (fim)
     sys.exit(0)
 
+
+# Comeca a percorrer o grafo
+andar_atual = inicio
+andar_final = fim
+pilha_andares_para_retornar = []
+while andar_atual != andar_final:
+    if len(grafo[andar_atual]) > 1:
+        pilha_andares_para_retornar.append(andar_atual)
+    if len(grafo[andar_atual]) == 0:
+        del grafo[andar_atual]
+        andar_atual = pilha_andares_para_retornar.pop()
+        continue
+
+    proximo_andar = grafo[andar_atual].pop(0)
+    if len(grafo[andar_atual]) == 0:
+        del grafo[andar_atual]
+
+    grafo[proximo_andar].remove(andar_atual)
+    andar_atual = proximo_andar
+
 print json.dumps(grafo, indent=4)
