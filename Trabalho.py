@@ -32,7 +32,9 @@ grafo = {}
 
 # Le dados iniciais
 linhas_do_arquivo = []
-with open('Teste.txt', 'r') as file:
+print "---------"
+print sys.argv[1]
+with open(sys.argv[1], 'r') as file:
     linhas_do_arquivo = file.read()
     linhas_do_arquivo = linhas_do_arquivo.split('\n')
 
