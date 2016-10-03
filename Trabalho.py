@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import json
 import sys
 
@@ -75,12 +76,24 @@ if fim not in grafo:
 andar_atual = inicio
 andar_final = fim
 pilha_andares_para_retornar = []
+caminho_percorrido = [andar_atual]
 while andar_atual != andar_final:
     if len(grafo[andar_atual]) > 1:
         pilha_andares_para_retornar.append(andar_atual)
     if len(grafo[andar_atual]) == 0:
         del grafo[andar_atual]
-        andar_atual = pilha_andares_para_retornar.pop()
+        if len(pilha_andares_para_retornar) > 0:
+            andar_atual = pilha_andares_para_retornar.pop()
+        else:
+            print 'Nao ha caminho de %d ate %d' % (inicio, fim)
+            print caminho_percorrido
+            sys.exit(0)
+
+        ultimo_nodo_percorrido = caminho_percorrido.pop()
+        while andar_atual != ultimo_nodo_percorrido:
+            ultimo_nodo_percorrido = caminho_percorrido.pop()
+        caminho_percorrido.append(ultimo_nodo_percorrido)
+
         continue
 
     proximo_andar = grafo[andar_atual].pop(0)
@@ -89,5 +102,7 @@ while andar_atual != andar_final:
 
     grafo[proximo_andar].remove(andar_atual)
     andar_atual = proximo_andar
+    caminho_percorrido.append(andar_atual)
 
-print json.dumps(grafo, indent=4)
+#print json.dumps(grafo, indent=4)
+#print caminho_percorrido
