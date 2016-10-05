@@ -99,8 +99,8 @@ while andar_atual != andar_final:
         continue
 
     proximo_andar = grafo[andar_atual].pop(0)
-    if len(grafo[andar_atual]) == 0:
-        del grafo[andar_atual]
+    # if len(grafo[andar_atual]) == 0:
+    #     del grafo[andar_atual]
 
     grafo[proximo_andar].remove(andar_atual)
     andar_atual = proximo_andar
