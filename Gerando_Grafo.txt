@@ -1,0 +1,2 @@
+sudo apt-get install graphviz
+dot -Tpng -O exemplo.dot
